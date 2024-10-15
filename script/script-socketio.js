@@ -1,17 +1,42 @@
-const express = require("express")
-const http = require("http")
-const socketIo = require("socket.io")
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const cors = require("cors");
 
-const app = express()
+const app = express();
+const server = http.createServer(app);
 
-const server = http.createServer(app)
+const io = new Server(server, {
+    cors: {
+        origin: "http://127.0.0.1:5500",
+        methods: ["GET", "POST"]
+    }
+});
 
-const io = socketIo(server)
+app.use(express.static("public")); 
 
-app.get("/", (req, res)=>{
-    res.sendFile(__dirname + "/chat.html")
-})
+app.use(cors());
 
-// aqui vai o socket.io
+io.on("connection", (socket) => {
+    console.log("Usuário conectado " + socket.id);
 
-server.listen(3000)
+    socket.on("disconnect", () => {
+        console.log("Usuário desconectado " + socket.id);
+    });
+
+    socket.on("message", (msg) => {
+        console.log("Mensagem recebida: " + msg);
+        
+        io.emit("message", msg);
+    });
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/public/chat.html");
+});
+
+server.on("error", (err) => {
+    console.error("Server error: ", err);
+});
+
+server.listen(3000);
