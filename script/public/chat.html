@@ -11,6 +11,7 @@
 <div id="loginScreen">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Digite seu nome" required><br>
+    <div id="loginError" class="error-message-nome"></div>
     <input type="file" id="profilePic" accept="image/*"><br>
     <button onclick="login()">Entrar no Chat</button>
 </div>
@@ -19,8 +20,9 @@
     <ul></ul>
     <div class="message-box">
         <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-        <button onclick="enviar()"><b>Enviar<b></button>
+        <button onclick="enviar()"><b>Enviar</b></button>
     </div>
+    <div id="messageError" class="error-message"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.0/socket.io.js"></script>
