@@ -19,6 +19,7 @@ app.use(cors());
 
 io.on("connection", (socket) => {
     console.log("Usuário conectado " + socket.id);
+    
     socket.on("message", (msg)=>{
         console.log(msg) 
         io.emit("message", msg)
@@ -26,12 +27,6 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("Usuário desconectado " + socket.id);
-    });
-
-    socket.on("message", (msg) => {
-        console.log("Mensagem recebida: " + msg);
-        
-        io.emit("message", msg);
     });
 });
 
