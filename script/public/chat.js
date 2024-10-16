@@ -14,7 +14,7 @@ socket.on("message", (data) => {
   if (data.profilePic) {
     img.src = data.profilePic;
   } else {
-    img.src = "https://img.icons8.com/ios/452/user-male.png";
+    img.src = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
   }
   img.classList.add("profile-pic");
 
@@ -44,10 +44,12 @@ socket.on("message", (data) => {
 function login() {
   const usernameInput = document.getElementById("username");
   const profilePicInput = document.getElementById("profilePic");
+  const loginError = document.getElementById("loginError");
 
-  if (usernameInput.value) {
-    username = usernameInput.value;
-
+  if (usernameInput.value.trim()) {
+    username = usernameInput.value.trim();
+    loginError.innerHTML = "";
+    usernameInput.classList.remove("input-error");
     if (profilePicInput.files.length > 0) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -57,35 +59,40 @@ function login() {
       };
       reader.readAsDataURL(profilePicInput.files[0]);
     } else {
-      profilePic = "https://img.icons8.com/ios/452/user-male.png";
+      profilePic = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("chatScreen").style.display = "block";
     }
   } else {
-    alert("Por favor, preencha o campo de Usuário.");
+    loginError.innerHTML = "Por favor, preencha o campo de Usuário.";
+    usernameInput.classList.add("input-error");
   }
 }
 
 function enviar() {
   let msg = document.getElementById("messageInput").value;
+  const messageError = document.getElementById("messageError");
+  const messageInput = document.getElementById("messageInput");
   if (msg.trim()) {
     socket.emit("message", {
-      text: msg,
+      text: msg.trim(),
       username: username,
       profilePic: profilePic,
     });
     document.getElementById("messageInput").value = "";
+    messageError.innerHTML = "";
+    messageInput.classList.remove("input-error");
   } else {
-    alert("Por favor, digite uma mensagem antes de enviar.");
+    messageError.innerHTML = "Por favor, digite uma mensagem antes de enviar.";
+    messageInput.classList.add("input-error");
   }
 }
-
 
 document
   .getElementById("messageInput")
   .addEventListener("keydown", function (event) {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); 
-      enviar(); 
+      event.preventDefault();
+      enviar();
     }
   });

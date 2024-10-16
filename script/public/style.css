@@ -106,8 +106,8 @@ li.received .message-text::after {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-left: 30rem;
-  margin-top: 15rem;
+  margin-left: 40rem;
+  margin-top: 10rem;
 }
 
 #loginScreen h2 {
@@ -230,22 +230,34 @@ button:hover {
   border-radius: 20px 5px 5px 20px;
 }
 
+.error-message {
+  color: #ff4d4d;
+  margin-top: 5px;
+  font-size: 14px;
+}
+.error-message-nome {
+  color: #ff4d4d;
+  margin-top: -10px;
+  font-size: 14px;
+}
+
+.input-error {
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6);
+}
+
 /* Barra de rolagem */
 ul::-webkit-scrollbar {
   width: 8px; 
   height: 8px; 
 }
 
-
 ul::-webkit-scrollbar-thumb {
   background-color: #60dfff; 
   border-radius: 10px; 
 }
 
-
 ul::-webkit-scrollbar-track {
   background-color: #3e3e3e; 
   border-radius: 10px; 
-} 
-
-
+}
