@@ -23,7 +23,7 @@
 
     socket.on("message", (msg)=>{
         console.log(msg)
-        const ul = document.querySelector("ul")
+        const ul     = document.querySelector("ul")
         ul.innerHTML += `<li>${msg}</li>`
     })
 
