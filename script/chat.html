@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Estou no socketio</h1>
+  
 
 <input type="text">
 <button onclick="enviar()">Enviar</button>
@@ -20,6 +20,18 @@
     socket.on("connect", () => {
         console.log("Conectado ao servidor")
     })
+
+    socket.on("message", (msg)=>{
+        console.log(msg)
+        const ul = document.querySelector("ul")
+        ul.innerHTML += `<li>${msg}</li>`
+    })
+
+    function enviar (){
+        let msg = document.querySelector("input") 
+        socket.emit("message", msg.value) 
+        msg.value = ""
+    }
 </script>
 </body>
 </html>
