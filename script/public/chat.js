@@ -80,12 +80,12 @@ function enviar() {
   }
 }
 
-// Permitir enviar mensagem ao pressionar Enter
+
 document
   .getElementById("messageInput")
   .addEventListener("keydown", function (event) {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Previne o comportamento padrão de quebra de linha
-      enviar(); // Envia a mensagem
+      event.preventDefault(); 
+      enviar(); 
     }
   });
