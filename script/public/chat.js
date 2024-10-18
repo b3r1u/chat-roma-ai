@@ -2,7 +2,7 @@ const socket = io("http://127.0.0.1:3000");
 let username = "";
 let profilePic = "";
 let userColor = "";
-const userColors = {}; // Objeto para armazenar cores de usuários
+const userColors = {}; 
 
 socket.on("connect", () => {
   console.log("Conectado ao servidor");
@@ -44,9 +44,8 @@ socket.on("message", (data) => {
   const messageText = document.createElement("div");
   messageText.classList.add("message-text");
 
-  // Usar a cor do usuário armazenada
   const usernameColor = userColors[data.username] || getRandomColor();
-  userColors[data.username] = usernameColor; // Armazenar cor do usuário caso não exista
+  userColors[data.username] = usernameColor; 
   messageText.innerHTML = `<strong style="color: ${usernameColor}">${data.username}</strong><br>${data.text}`;
 
   messageContainer.appendChild(messageText);
@@ -67,12 +66,11 @@ function login() {
     loginError.innerHTML = "";
     usernameInput.classList.remove("input-error");
 
-    // Atribuir cor ao usuário se ainda não tiver uma
     if (!userColors[username]) {
       userColor = getRandomColor();
-      userColors[username] = userColor; // Armazenar cor do usuário
+      userColors[username] = userColor; 
     } else {
-      userColor = userColors[username]; // Usar cor existente
+      userColor = userColors[username]; 
     }
 
     if (profilePicInput.files.length > 0) {
