@@ -63,7 +63,6 @@ function login() {
 
   if (usernameInput.value.trim()) {
     username = usernameInput.value.trim();
-    loginError.innerHTML = "";
     usernameInput.classList.remove("input-error");
 
     if (!userColors[username]) {
