@@ -25,12 +25,8 @@ socket.on("message", (data) => {
   if (data.profilePic) {
     img.src = data.profilePic;
   } else {
-<<<<<<< HEAD
     img.src =
       "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
-=======
-    img.src = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
->>>>>>> main
   }
   img.classList.add("profile-pic");
 
@@ -65,7 +61,6 @@ function login() {
   const profilePicInput = document.getElementById("profilePic");
   const loginError = document.getElementById("loginError");
 
-<<<<<<< HEAD
   usernameInput.classList.remove("input-error");
   usernameInput.placeholder = "Digite seu nome";
 
@@ -80,12 +75,6 @@ function login() {
       userColor = userColors[username];
     }
 
-=======
-  if (usernameInput.value.trim()) {
-    username = usernameInput.value.trim();
-    loginError.innerHTML = "";
-    usernameInput.classList.remove("input-error");
->>>>>>> main
     if (profilePicInput.files.length > 0) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -95,38 +84,24 @@ function login() {
       };
       reader.readAsDataURL(profilePicInput.files[0]);
     } else {
-<<<<<<< HEAD
       profilePic =
         "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
-=======
-      profilePic = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
->>>>>>> main
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("chatScreen").style.display = "block";
     }
   } else {
-<<<<<<< HEAD
     usernameInput.classList.add("input-error");
     usernameInput.placeholder = "Campo obrigatório";
-=======
-    loginError.innerHTML = "Por favor, preencha o campo de Usuário.";
-    usernameInput.classList.add("input-error");
->>>>>>> main
   }
 }
 
 function enviar() {
   let msg = document.getElementById("messageInput").value;
-<<<<<<< HEAD
   const messageInput = document.getElementById("messageInput");
 
   messageInput.classList.remove("input-error");
   messageInput.placeholder = "Digite sua mensagem";
 
-=======
-  const messageError = document.getElementById("messageError");
-  const messageInput = document.getElementById("messageInput");
->>>>>>> main
   if (msg.trim()) {
     socket.emit("message", {
       text: msg.trim(),
@@ -138,13 +113,8 @@ function enviar() {
     messageError.innerHTML = "";
     messageInput.classList.remove("input-error");
   } else {
-<<<<<<< HEAD
     messageInput.classList.add("input-error");
     messageInput.placeholder = "Por favor, digite uma mensagem.";
-=======
-    messageError.innerHTML = "Por favor, digite uma mensagem antes de enviar.";
-    messageInput.classList.add("input-error");
->>>>>>> main
   }
 }
 

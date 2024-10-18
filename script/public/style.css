@@ -6,11 +6,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-<<<<<<< HEAD
   justify-content: center;
-=======
-  justify-content: center; 
->>>>>>> main
   align-items: center;
 }
 
@@ -20,13 +16,8 @@ ul {
   padding-top: 20px;
   flex-grow: 1;
   overflow-y: auto;
-<<<<<<< HEAD
   max-height: 80vh;
   width: 530px;
-=======
-  max-height: 90vh;
-  width: 600px;
->>>>>>> main
 }
 
 li {
@@ -113,28 +104,16 @@ li.received .message-text::after {
 }
 
 #loginScreen {
-<<<<<<< HEAD
   width: 400px;
-=======
-  width: 400px; 
->>>>>>> main
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-<<<<<<< HEAD
   margin: 0;
 }
 
 #loginScreen h2 {
   margin-bottom: 20px;
-=======
-  margin: 0; 
-}
-
-#loginScreen h2 {
-  margin-bottom: 20px; 
->>>>>>> main
   margin-left: 0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 3rem; 
@@ -228,13 +207,8 @@ button {
   border: 2px solid #080f17;
   padding: 10px 0;
   font-size: 16px;
-<<<<<<< HEAD
   cursor: pointer;
   width: 80%;
-=======
-  cursor: pointer; 
-  width: 80%; 
->>>>>>> main
   border-radius: 5px;
   outline: none;
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -255,11 +229,7 @@ button:hover {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-<<<<<<< HEAD
   width: 600px;
-=======
-  width: 600px; 
->>>>>>> main
 }
 
 #chatScreen input[type="text"] {
