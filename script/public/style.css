@@ -285,7 +285,6 @@ button:hover {
   color: #ff4d4d;
   margin-top: -10px;
   font-size: 14px;
-<<<<<<< HEAD
 }
 
 .input-error {
@@ -353,41 +352,4 @@ ul::-webkit-scrollbar-thumb:hover {
 
 .message-text strong {
   color: inherit;
-=======
-}
-
-.input-error {
-  border-color: #ff4d4d !important;
-  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-  }
-
-  ul {
-    padding: 10px;
-    max-height: 70vh;
-    width: 90%; 
-    margin: 0 auto; 
-  }
-
-  li {
-    width: 100%; 
-  }
-
-  #loginScreen {
-    width: 90%; 
-  }
-
-  #chatScreen {
-    width: 90%; 
-    left: 50%; 
-    transform: translateX(-50%); 
-  }
->>>>>>> main
 }
