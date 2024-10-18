@@ -180,6 +180,26 @@ input[type="file"]:before {
 input[type="file"]:hover::before {
   color: #ffffff;
 }
+/* Erros */
+
+input[type="text"].input-error {
+  border-color: #ff4d4d !important; 
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6); 
+}
+
+input[type="text"].input-error::placeholder {
+  color: #ff4d4d;
+  font-size: 13px;
+}
+
+input[type="text"].input-error {
+  border-color: #ff4d4d !important; 
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6); 
+}
+
+input[type="text"].input-error::placeholder {
+  color: #ff4d4d; 
+}
 
 button {
   background-color: #60dfff;

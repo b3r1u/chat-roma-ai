@@ -2,7 +2,7 @@ const socket = io("http://127.0.0.1:3000");
 let username = "";
 let profilePic = "";
 let userColor = "";
-const userColors = {}; 
+const userColors = {};
 
 socket.on("connect", () => {
   console.log("Conectado ao servidor");
@@ -45,7 +45,7 @@ socket.on("message", (data) => {
   messageText.classList.add("message-text");
 
   const usernameColor = userColors[data.username] || getRandomColor();
-  userColors[data.username] = usernameColor; 
+  userColors[data.username] = usernameColor;
   messageText.innerHTML = `<strong style="color: ${usernameColor}">${data.username}</strong><br>${data.text}`;
 
   messageContainer.appendChild(messageText);
@@ -59,7 +59,9 @@ socket.on("message", (data) => {
 function login() {
   const usernameInput = document.getElementById("username");
   const profilePicInput = document.getElementById("profilePic");
-  const loginError = document.getElementById("loginError");
+
+  usernameInput.classList.remove("input-error");
+  usernameInput.placeholder = "Digite seu nome";
 
   if (usernameInput.value.trim()) {
     username = usernameInput.value.trim();
@@ -67,9 +69,9 @@ function login() {
 
     if (!userColors[username]) {
       userColor = getRandomColor();
-      userColors[username] = userColor; 
+      userColors[username] = userColor;
     } else {
-      userColor = userColors[username]; 
+      userColor = userColors[username];
     }
 
     if (profilePicInput.files.length > 0) {
@@ -87,15 +89,18 @@ function login() {
       document.getElementById("chatScreen").style.display = "block";
     }
   } else {
-    loginError.innerHTML = "Por favor, preencha o campo de Usuário.";
     usernameInput.classList.add("input-error");
+    usernameInput.placeholder = "Campo obrigatório";
   }
 }
 
 function enviar() {
   let msg = document.getElementById("messageInput").value;
-  const messageError = document.getElementById("messageError");
   const messageInput = document.getElementById("messageInput");
+
+  messageInput.classList.remove("input-error");
+  messageInput.placeholder = "Digite sua mensagem";
+
   if (msg.trim()) {
     socket.emit("message", {
       text: msg.trim(),
@@ -104,11 +109,9 @@ function enviar() {
       userColor: userColor,
     });
     document.getElementById("messageInput").value = "";
-    messageError.innerHTML = "";
-    messageInput.classList.remove("input-error");
   } else {
-    messageError.innerHTML = "Por favor, digite uma mensagem antes de enviar.";
     messageInput.classList.add("input-error");
+    messageInput.placeholder = "Por favor, digite uma mensagem.";
   }
 }
 
