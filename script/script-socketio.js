@@ -27,6 +27,7 @@ io.on("connection", (socket) => {
       profilePic: msg.profilePic,
       id: socket.id,
     });
+    console.log('OI')
   });
 
   socket.on("disconnect", () => {
