@@ -3,6 +3,18 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
+// Carrega as variáveis de ambiente do arquivo .env
+require('dotenv').config();
+
+// Importa o pacote oficial da OpenAI
+const { Configuration, OpenAIApi } = require('openai');
+
+// Configura a OpenAI com a chave da API
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
 const app = express();
 const server = http.createServer(app);
 
