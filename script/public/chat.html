@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="chat.css" />
+        <title>Chat</title>
+    </head>
+    <body>
+        <div id="loginScreen">
+            <h2>Login</h2>
+            <input
+                type="text"
+                id="username"
+                placeholder="Digite seu nome"
+                required
+            /><br />
+            <div id="loginError" class="error-message-nome"></div>
+            <input type="file" id="profilePic" accept="image/*" /><br />
+            <button onclick="login()">Entrar no Chat</button>
+        </div>
 
-<div id="loginScreen">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Digite seu nome" required><br>
-    <div id="loginError" class="error-message-nome"></div>
-    <input type="file" id="profilePic" accept="image/*"><br>
-    <button onclick="login()">Entrar no Chat</button>
-</div>
+        <div id="chatScreen" style="display: none">
+            <ul></ul>
+            <div class="message-box">
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Digite sua mensagem"
+                />
+                <button onclick="enviar()"><b>Enviar</b></button>
+            </div>
+            <div id="messageError" class="error-message"></div>
+        </div>
 
-<div id="chatScreen" style="display: none;">
-    <ul></ul>
-    <div class="message-box">
-        <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-        <button onclick="enviar()"><b>Enviar</b></button>
-    </div>
-    <div id="messageError" class="error-message"></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.0/socket.io.js"></script>
-<script src="chat.js"></script>
-
-</body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.0/socket.io.js"></script>
+        <script src="chat.js"></script>
+    </body>
 </html>
