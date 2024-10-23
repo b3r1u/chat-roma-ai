@@ -116,7 +116,7 @@ li.received .message-text::after {
   margin-bottom: 20px;
   margin-left: 0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 3rem; 
+  font-size: 3rem;
   color: #ffff;
   cursor: default;
 }
@@ -127,7 +127,7 @@ input[type="text"] {
   border: 2px solid #60dfff;
   padding: 10px;
   width: 80%;
-  font-size: 16px; 
+  font-size: 16px;
   box-sizing: border-box;
   border-radius: 5px;
   outline: none;
@@ -152,6 +152,7 @@ input[type="file"] {
   transition: background-color 0.3s ease, border-color 0.3s ease;
   text-align: center;
   display: inline-block;
+  position: relative;
 }
 
 input[type="file"]:focus {
@@ -174,12 +175,13 @@ input[type="file"]:before {
   border-radius: 5px;
   text-align: center;
   transition: background-color 0.3s ease;
-  width: 80%; 
+  width: 80%;
 }
 
 input[type="file"]:hover::before {
   color: #ffffff;
 }
+
 /* Erros */
 
 input[type="text"].input-error {
@@ -233,12 +235,12 @@ button:hover {
 }
 
 #chatScreen input[type="text"] {
-  width: 70%; 
+  width: 70%;
   margin-right: 10px;
 }
 
 #chatScreen button {
-  width: 20%; 
+  width: 20%;
 }
 
 #messageInput {
@@ -274,7 +276,7 @@ button:hover {
     padding: 10px;
     max-height: 100vh;
     width: 100%;
-    margin: 0 auto;
+    margin-top: 12rem !important;
   }
 
   li {
@@ -282,8 +284,8 @@ button:hover {
   }
 
   li.received {
-  left: -15px;
-}
+    left: -15px;
+  }
 
   #loginScreen {
     width: 90%;
@@ -297,6 +299,14 @@ button:hover {
 
   ul::-webkit-scrollbar {
     display: none;
+  }
+
+  /* input[type="file"] {
+    display: none;
+  } */
+
+  .message-box{
+    margin-bottom: -4.7rem !important;
   }
   
 }

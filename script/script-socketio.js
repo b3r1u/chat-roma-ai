@@ -8,13 +8,12 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5500", 
+    origin: "https://38e36f9b-66da-40e7-aa97-154dacdf0d0e-00-30acz2kkboipm.picard.replit.dev",
     methods: ["GET", "POST"],
   },
 });
 
-app.use(express.static("public")); 
-
+app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
 io.on("connection", (socket) => {
