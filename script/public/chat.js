@@ -1,4 +1,4 @@
-const socket = io("http://127.0.0.1:3000");
+const socket = io("https://38e36f9b-66da-40e7-aa97-154dacdf0d0e-00-30acz2kkboipm.picard.replit.dev");
 let username = "";
 let profilePic = "";
 let userColor = "";
