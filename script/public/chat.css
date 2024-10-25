@@ -333,3 +333,9 @@ ul::-webkit-scrollbar-thumb:hover {
 .message-text strong {
   color: inherit;
 }
+
+.message-text img {
+  width: 200px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
