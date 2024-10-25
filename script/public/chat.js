@@ -59,15 +59,12 @@ socket.on("message", (data) => {
 function login() {
   const usernameInput = document.getElementById("username");
   const profilePicInput = document.getElementById("profilePic");
-  const loginError = document.getElementById("loginError");
 
   usernameInput.classList.remove("input-error");
   usernameInput.placeholder = "Digite seu nome";
 
   if (usernameInput.value.trim()) {
     username = usernameInput.value.trim();
-    usernameInput.classList.remove("input-error");
-
     if (!userColors[username]) {
       userColor = getRandomColor();
       userColors[username] = userColor;
@@ -110,8 +107,6 @@ function enviar() {
       userColor: userColor,
     });
     document.getElementById("messageInput").value = "";
-    messageError.innerHTML = "";
-    messageInput.classList.remove("input-error");
   } else {
     messageInput.classList.add("input-error");
     messageInput.placeholder = "Por favor, digite uma mensagem.";
