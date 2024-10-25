@@ -3,12 +3,10 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const axios = require("axios");
-require('dotenv').config(); // Carrega as variáveis de ambiente
+require('dotenv').config(); 
 
-// Importa corretamente a OpenAI (versão 4.x)
 const OpenAI = require('openai');
 
-// Cria uma nova instância do cliente OpenAI
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
@@ -16,7 +14,6 @@ const openai = new OpenAI({
 const app = express();
 const server = http.createServer(app);
 
-// Configura para receber JSON no body das requisições POST
 app.use(express.json());
 
 const io = new Server(server, {
@@ -37,7 +34,6 @@ io.on("connection", (socket) => {
       const userMessage = msg.text.replace("/text ", "").trim();
 
       try {
-        // Chama a API OpenAI para gerar uma resposta de chat
         const openAiResponse = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
           messages: [{ role: "user", content: userMessage }],
