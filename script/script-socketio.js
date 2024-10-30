@@ -18,7 +18,7 @@ app.use(express.json());
 const io = new Server(server, {
   cors: {
     origin: "http://127.0.0.1:5500",
-    origin: "https://38e36f9b-66da-40e7-aa97-154dacdf0d0e-00-30acz2kkboipm.picard.replit.dev",
+    
     methods: ["GET", "POST"],
   },
 });
@@ -49,6 +49,19 @@ app.post("/openai/image", async (req, res) => {
   } catch (error) {
     console.error("Erro ao gerar imagem: ", error);
     res.status(500).json({ error: "Erro ao gerar imagem" });
+  }
+});
+
+
+// Endpoint para buscar imagem de gato
+app.get("/cat", async (req, res) => {
+  try {
+    const response = await axios.get("https://api.thecatapi.com/v1/images/search");
+    const catImageUrl = response.data[0].url;  
+    res.json({ url: catImageUrl });
+  } catch (error) {
+    console.error("Erro ao buscar imagem de gato: ", error);
+    res.status(500).json({ error: "Erro ao buscar imagem de gato" });
   }
 });
 
@@ -105,6 +118,27 @@ io.on("connection", (socket) => {
           id: socket.id,
         });
       }
+    } else if (msg.text.startsWith("/gato")) {
+      try {
+        const catResponse = await axios.get("http://localhost:4000/cat");
+        const catImageUrl = catResponse.data.url;
+
+        io.emit("message", {
+          text: `<img src="${catImageUrl}" alt="Imagem de Gato" style="max-width: 300px;">`,
+          username: "API GATO",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar imagem de gato: ", error);
+        io.emit("message", {
+          text: "Erro ao buscar imagem de gato. Tente novamente mais tarde.",
+          username: "API GATO",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+
     } else {
       io.emit("message", {
         text: msg.text,
@@ -114,6 +148,8 @@ io.on("connection", (socket) => {
       });
     }
   });
+
+
 
   socket.on("disconnect", () => {
     console.log("Usuário desconectado " + socket.id);
@@ -128,6 +164,6 @@ server.on("error", (err) => {
   console.error("Server error: ", err);
 });
 
-server.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+server.listen(4000, () => {
+  console.log("Servidor rodando na porta 4000");
 });
