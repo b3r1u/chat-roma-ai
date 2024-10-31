@@ -65,6 +65,40 @@ app.get("/cat", async (req, res) => {
   }
 });
 
+// Endpoint para buscar uma imagem aleatória de Lorem Picsum
+app.get("/random-image", async (req, res) => {
+  try {
+    const response = await axios.get("https://picsum.photos/500");
+    const randomImageUrl = response.request.res.responseUrl; 
+
+    res.json({ url: randomImageUrl });
+  } catch (error) {
+    console.error("Erro ao buscar imagem aleatória: ", error);
+    res.status(500).json({ error: "Erro ao buscar imagem aleatória" });
+  }
+});
+
+app.get("/artwork-image", async (req, res) => {
+  try {
+    const response = await axios.get("https://api.artic.edu/api/v1/artworks?page=1&limit=100");
+    const artworks = response.data.data;
+
+    // Filtra apenas as obras que possuem imagem
+    const artworksWithImage = artworks.filter(artwork => artwork.image_id);
+    const randomArtwork = artworksWithImage[Math.floor(Math.random() * artworksWithImage.length)];
+
+    const imageUrl = `https://www.artic.edu/iiif/2/${randomArtwork.image_id}/full/843,/0/default.jpg`;
+    res.json({
+      title: randomArtwork.title,
+      artist: randomArtwork.artist_title,
+      url: imageUrl
+    });
+  } catch (error) {
+    console.error("Erro ao buscar imagem de obra de arte: ", error);
+    res.status(500).json({ error: "Erro ao buscar imagem de obra de arte" });
+  }
+});
+
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
 
@@ -138,8 +172,27 @@ io.on("connection", (socket) => {
           id: socket.id,
         });
       }
+    } else if (msg.text.startsWith("/art")) {
+      try {
+        const artResponse = await axios.get("http://localhost:4000/artwork-image");
+        const artworkUrl = artResponse.data.url;
 
-    } else {
+        io.emit("message", {
+          text: `<img src="${artworkUrl}" alt="Obra de arte" style="max-width: 300px;">`,
+          username: "Art Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar imagem de obra de arte: ", error);
+        io.emit("message", {
+          text: "Erro ao buscar imagem de obra de arte. Tente novamente mais tarde.",
+          username: "Art Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    }else {
       io.emit("message", {
         text: msg.text,
         username: msg.username,
