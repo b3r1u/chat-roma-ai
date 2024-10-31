@@ -99,6 +99,17 @@ app.get("/artwork-image", async (req, res) => {
   }
 });
 
+app.get("/dog-image", async (req, res) => {
+  try {
+    const response = await axios.get("https://dog.ceo/api/breeds/image/random");
+    const dogImageUrl = response.data.message;
+    res.json({ url: dogImageUrl });
+  } catch (error) {
+    console.error("Erro ao buscar imagem de cachorro: ", error);
+    res.status(500).json({ error: "Erro ao buscar imagem de cachorro" });
+  }
+});
+
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
 
@@ -192,7 +203,27 @@ io.on("connection", (socket) => {
           id: socket.id,
         });
       }
-    }else {
+    }else if (msg.text.startsWith("/dog")) {
+      try {
+        const dogImageResponse = await axios.get("http://localhost:4000/dog-image");
+        const dogImageUrl = dogImageResponse.data.url;
+    
+        io.emit("message", {
+          text: `<img src="${dogImageUrl}" alt="Imagem de Cachorro" style="max-width: 300px;">`,
+          username: "Dog Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar imagem de cachorro: ", error);
+        io.emit("message", {
+          text: "Erro ao buscar imagem de cachorro. Tente novamente mais tarde.",
+          username: "Dog Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+       }
+      } else {
       io.emit("message", {
         text: msg.text,
         username: msg.username,
