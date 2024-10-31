@@ -110,6 +110,17 @@ app.get("/dog-image", async (req, res) => {
   }
 });
 
+app.get("/fox-image", async (req, res) => {
+  try {
+    const response = await axios.get("https://randomfox.ca/floof/");
+    const foxImageUrl = response.data.image;
+    res.json({ url: foxImageUrl });
+  } catch (error) {
+    console.error("Erro ao buscar imagem de raposa: ", error);
+    res.status(500).json({ error: "Erro ao buscar imagem de raposa" });
+  }
+});
+
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
 
@@ -203,11 +214,11 @@ io.on("connection", (socket) => {
           id: socket.id,
         });
       }
-    }else if (msg.text.startsWith("/dog")) {
+    } else if (msg.text.startsWith("/dog")) {
       try {
         const dogImageResponse = await axios.get("http://localhost:4000/dog-image");
         const dogImageUrl = dogImageResponse.data.url;
-    
+
         io.emit("message", {
           text: `<img src="${dogImageUrl}" alt="Imagem de Cachorro" style="max-width: 300px;">`,
           username: "Dog Bot",
@@ -222,8 +233,28 @@ io.on("connection", (socket) => {
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
         });
-       }
-      } else {
+      }
+    } else if (msg.text.startsWith("/fox")) {
+      try {
+        const foxImageResponse = await axios.get("http://localhost:4000/fox-image");
+        const foxImageUrl = foxImageResponse.data.url;
+
+        io.emit("message", {
+          text: `<img src="${foxImageUrl}" alt="Imagem de Raposa" style="max-width: 300px;">`,
+          username: "Fox Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar imagem de raposa: ", error);
+        io.emit("message", {
+          text: "Erro ao buscar imagem de raposa. Tente novamente mais tarde.",
+          username: "Fox Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else {
       io.emit("message", {
         text: msg.text,
         username: msg.username,
@@ -232,8 +263,6 @@ io.on("connection", (socket) => {
       });
     }
   });
-
-
 
   socket.on("disconnect", () => {
     console.log("Usuário desconectado " + socket.id);
