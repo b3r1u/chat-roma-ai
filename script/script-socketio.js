@@ -3,11 +3,12 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const axios = require("axios");
+const path = require("path");
 require('dotenv').config({ path: './script/token.env' }); 
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: "process.env.OPENAI_API_KEY"
 });
 
 const app = express();
@@ -52,6 +53,53 @@ app.post("/openai/image", async (req, res) => {
   }
 });
 
+//som do gato
+app.get("/cat-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "gato.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do scooby
+app.get("/scooby-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "scooby.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do cavalo
+app.get("/cavalo-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "cavalo.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do cachorro
+app.get("/dog-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "dog.mp3");
+  res.sendFile(audioPath);
+});
+
+//som da galinha
+app.get("/galinha-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "galinha.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do spiderman
+app.get("/spiderman-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "spiderman.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do sapo
+app.get("/sapo-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "sapo.mp3");
+  res.sendFile(audioPath);
+});
+
+//som do ari
+app.get("/ari-sound", (req, res) => {
+  const audioPath = path.join(__dirname, "public", "audios", "ari.mp3");
+  res.sendFile(audioPath);
+});
 
 // Endpoint para buscar imagem de gato
 app.get("/cat", async (req, res) => {
@@ -268,6 +316,158 @@ io.on("connection", (socket) => {
         io.emit("message", {
           text: "Erro ao buscar imagem de raposa. Tente novamente mais tarde.",
           username: "Fox Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do gato")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/cat-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "Cat Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do gato: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do gato. Tente novamente mais tarde.",
+          username: "Cat Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do scooby")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/scooby-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "scooby Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do scooby: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do scooby. Tente novamente mais tarde.",
+          username: "scooby Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do cachorro")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/dog-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "Dog Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do cachorro: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do cachorro. Tente novamente mais tarde.",
+          username: "Dog Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do cavalo")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/cavalo-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "cavalo Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do cavalo: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do cavalo. Tente novamente mais tarde.",
+          username: "cavalo Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do spiderman")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/spiderman-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "spiderman Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do spiderman: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do scooby. Tente novamente mais tarde.",
+          username: "spiderman Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do galinha")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/galinha-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "galinha Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do galinha: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do galinha. Tente novamente mais tarde.",
+          username: "galinha Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do sapo")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/sapo-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "sapo Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do sapo: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do sapo. Tente novamente mais tarde.",
+          username: "sapo Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      }
+    } else if (msg.text.startsWith("/som do ari")) {
+      try {
+        const catSoundUrl = "http://localhost:4000/ari-sound";
+        
+        io.emit("message", {
+          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          username: "ooscby Sound Bot",
+          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+          id: socket.id,
+        });
+      } catch (error) {
+        console.error("Erro ao reproduzir o som do ari: ", error);
+        io.emit("message", {
+          text: "Erro ao reproduzir o som do ari. Tente novamente mais tarde.",
+          username: "ari Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
         });
