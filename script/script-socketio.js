@@ -121,34 +121,52 @@ app.get("/fox-image", async (req, res) => {
   }
 });
 
+app.post("/text", async (req, res) => {
+  const { userMessage } = req.body;
+
+  try {
+    const openAiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: userMessage }],
+    });
+
+    const aiResponseText = openAiResponse.choices[0].message.content;
+    res.json({ text: aiResponseText });
+  } catch (error) {
+    console.error("Erro ao chamar a API da OpenAI: ", error);
+    res
+      .status(500)
+      .json({
+        error: "Erro ao se conectar à OpenAI. Tente novamente mais tarde.",
+      });
+  }
+});
+
+
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
 
   socket.on("message", async (msg) => {
-    if (msg.text.startsWith("/text ")) {
-      const userMessage = msg.text.replace("/text ", "").trim();
+  if (msg.text.startsWith("/text ")) {
+    const userMessage = msg.text.replace("/text ", "").trim();
 
-      try {
-        const openAiResponse = await openai.chat.completions.create({
-          model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content: userMessage }],
-        });
+    try {
+      const textResponse = await axios.post("http://localhost:3000/text", { userMessage });
+      const aiResponseText = textResponse.data.text;
 
-        const aiResponseText = openAiResponse.choices[0].message.content;
-
-        io.emit("message", {
-          text: aiResponseText,
-          username: "OpenAI Bot",
-          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
-          id: socket.id,
-        });
-      } catch (error) {
-        console.error("Erro ao chamar a API da OpenAI: ", error);
-        io.emit("message", {
-          text: "Erro ao se conectar à OpenAI. Tente novamente mais tarde.",
-          username: "OpenAI Bot",
-          profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
-          id: socket.id,
+      io.emit("message", {
+        text: aiResponseText,
+        username: "OpenAI Bot",
+        profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+        id: socket.id,
+      });
+    } catch (error) {
+      console.error("Erro ao chamar o endpoint /text: ", error);
+      io.emit("message", {
+        text: "Erro ao se conectar ao endpoint /text. Tente novamente mais tarde.",
+        username: "OpenAI Bot",
+        profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
+        id: socket.id,
         });
       }
 
