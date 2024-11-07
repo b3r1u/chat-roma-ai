@@ -17,6 +17,47 @@ function getRandomColor() {
   return color;
 }
 
+function showLoading() {
+  const ul = document.querySelector("ul");
+
+  // Verifique se o loading já existe para evitar duplicação
+  if (!document.getElementById("loading-spinner")) {
+    const li = document.createElement("li");
+    li.id = "loading-spinner";
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+
+    // Definição do conteúdo do loading
+    li.innerHTML = `
+      <div style="display: flex; align-items: center; margin-left: 17.7rem;">
+        <div class="spinner" style="width: 30px; height: 30px; border: 4px solid #ccc; border-top-color: #676767; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <span style="margin-left: 10px; color: #FFFFFF;">Carregando imagem...</span>
+      </div>
+    `;
+
+    ul.appendChild(li);
+    ul.scrollTop = ul.scrollHeight; // Rolar para o fim do chat
+  }
+}
+
+// Oculta o loading
+function hideLoading() {
+  const loadingDiv = document.getElementById("loading-spinner");
+  if (loadingDiv) {
+    loadingDiv.remove();
+  }
+}
+
+// Recebe o evento do servidor para mostrar o loading
+socket.on("show-loading", () => {
+  showLoading();
+});
+
+// Recebe o evento do servidor para ocultar o loading
+socket.on("hide-loading", () => {
+  hideLoading();
+});
+
 socket.on("message", (data) => {
   const ul = document.querySelector("ul");
   const li = document.createElement("li");

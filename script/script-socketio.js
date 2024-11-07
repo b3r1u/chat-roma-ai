@@ -32,6 +32,30 @@ app.post("/openai/image", async (req, res) => {
   const imageDescription = req.body.description;
 
   try {
+    io.emit("loading", { status: "loading" }); // Início do loading (Linha 33)
+
+    const response = await axios.post(
+      "https://api.openai.com/v1/images/generations",
+      {
+        prompt: imageDescription,
+        n: 1,
+        size: "1024x1024",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    io.emit("loading", { status: "completed" }); // Finaliza o loading com sucesso (Linha 44)
+    res.json({ url: response.data.data[0].url });
+  } catch (error) {
+    io.emit("loading", { status: "error" }); // Finaliza o loading com erro (Linha 48)
+    console.error("Erro ao gerar imagem: ", error);
+    res.status(500).json({ error: "Erro ao gerar imagem" });
+  }
+  try {
     const response = await axios.post(
       "https://api.openai.com/v1/images/generations",
       {
@@ -242,8 +266,21 @@ io.on("connection", (socket) => {
       }
     } else if (msg.text.startsWith("/gato")) {
       try {
+        const startTimestamp = Date.now();
+    
+        // Emite um evento para iniciar o carregamento
+        io.emit("show-loading");
+    
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        await delay(3000); // Simulação de tempo de espera
+
         const catResponse = await axios.get("http://localhost:4000/cat");
         const catImageUrl = catResponse.data.url;
+
+        const endTimestamp = Date.now();
+        const loadingTime = (endTimestamp - startTimestamp) / 1000;
+
+        io.emit("hide-loading");
 
         io.emit("message", {
           text: `<img src="${catImageUrl}" alt="Imagem de Gato" style="max-width: 300px;">`,
@@ -251,6 +288,7 @@ io.on("connection", (socket) => {
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
         });
+
       } catch (error) {
         console.error("Erro ao buscar imagem de gato: ", error);
         io.emit("message", {
@@ -262,28 +300,61 @@ io.on("connection", (socket) => {
       }
     } else if (msg.text.startsWith("/art")) {
       try {
+        const startTimestamp = Date.now();
+    
+        // Emite um evento para iniciar o carregamento
+        io.emit("show-loading");
+    
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        await delay(3000); // Simulação de tempo de espera
+    
         const artResponse = await axios.get("http://localhost:4000/artwork-image");
         const artworkUrl = artResponse.data.url;
-
+    
+        const endTimestamp = Date.now();
+        const loadingTime = (endTimestamp - startTimestamp) / 1000;
+    
+        io.emit("hide-loading");
+    
         io.emit("message", {
-          text: `<img src="${artworkUrl}" alt="Obra de arte" style="max-width: 300px;">`,
+          text: `
+            <img src="${artworkUrl}" alt="Obra de arte" style="max-width: 300px;">
+          `,
           username: "Art Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
         });
       } catch (error) {
         console.error("Erro ao buscar imagem de obra de arte: ", error);
+    
+        // Emite um evento para remover o carregamento em caso de erro
+        io.emit("hide-loading");
+    
+        // Emite a mensagem de erro
         io.emit("message", {
           text: "Erro ao buscar imagem de obra de arte. Tente novamente mais tarde.",
           username: "Art Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
         });
-      }
+      }        
     } else if (msg.text.startsWith("/dog")) {
       try {
+        const startTimestamp = Date.now();
+    
+        // Emite um evento para iniciar o carregamento
+        io.emit("show-loading");
+    
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        await delay(3000); // Simulação de tempo de espera
+
         const dogImageResponse = await axios.get("http://localhost:4000/dog-image");
         const dogImageUrl = dogImageResponse.data.url;
+
+        const endTimestamp = Date.now();
+        const loadingTime = (endTimestamp - startTimestamp) / 1000;
+
+        io.emit("hide-loading");
 
         io.emit("message", {
           text: `<img src="${dogImageUrl}" alt="Imagem de Cachorro" style="max-width: 300px;">`,
@@ -302,8 +373,21 @@ io.on("connection", (socket) => {
       }
     } else if (msg.text.startsWith("/fox")) {
       try {
+        const startTimestamp = Date.now();
+    
+        // Emite um evento para iniciar o carregamento
+        io.emit("show-loading");
+    
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        await delay(3000); // Simulação de tempo de espera
+
         const foxImageResponse = await axios.get("http://localhost:4000/fox-image");
         const foxImageUrl = foxImageResponse.data.url;
+
+        const endTimestamp = Date.now();
+        const loadingTime = (endTimestamp - startTimestamp) / 1000;
+
+        io.emit("hide-loading");
 
         io.emit("message", {
           text: `<img src="${foxImageUrl}" alt="Imagem de Raposa" style="max-width: 300px;">`,
