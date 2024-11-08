@@ -97,7 +97,7 @@ app.get("/cavalo-sound", (req, res) => {
 
 //som do cachorro
 app.get("/dog-sound", (req, res) => {
-  const audioPath = path.join(__dirname, "public", "audios", "dog.mp3");
+  const audioPath = path.join(__dirname, "public", "audios", "cachorro.mp3");
   res.sendFile(audioPath);
 });
 
@@ -409,7 +409,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/cat-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "Cat Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -428,7 +428,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/scooby-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "scooby Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -447,7 +447,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/dog-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "Dog Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -466,7 +466,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/cavalo-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "cavalo Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -485,7 +485,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/spiderman-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "spiderman Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -504,7 +504,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/galinha-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "galinha Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -523,7 +523,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/sapo-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "sapo Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -542,7 +542,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/ari-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "ooscby Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
