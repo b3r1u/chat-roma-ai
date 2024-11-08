@@ -217,6 +217,10 @@ app.post("/text", async (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
+  socket.on("message", (data) => {
+    const messageData = { ...data, id: socket.id };
+    io.emit("message", messageData);
+  });
 
   socket.on("message", async (msg) => {
   if (msg.text.startsWith("/text ")) {

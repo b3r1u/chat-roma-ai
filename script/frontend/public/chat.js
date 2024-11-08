@@ -1,4 +1,4 @@
-const socket = io("http://127.0.0.1:4000");
+const socket = io("http://localhost:3001");
 let username = "";
 let profilePic = "";
 let userColor = "";
@@ -59,6 +59,9 @@ socket.on("hide-loading", () => {
 });
 
 socket.on("message", (data) => {
+  console.log("Recebendo mensagem com ID:", data.id); // Log do ID recebido
+  console.log("Meu socket.id:", socket.id);
+
   const ul = document.querySelector("ul");
   const li = document.createElement("li");
   const img = document.createElement("img");
@@ -141,11 +144,13 @@ function enviar() {
   messageInput.placeholder = "Digite sua mensagem";
 
   if (msg.trim()) {
+    console.log("Enviando mensagem com ID:", socket.id);
     socket.emit("message", {
       text: msg.trim(),
       username: username,
       profilePic: profilePic,
       userColor: userColor,
+      id: socket.id,
     });
     document.getElementById("messageInput").value = "";
   } else {
