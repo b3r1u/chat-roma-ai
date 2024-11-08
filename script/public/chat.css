@@ -18,6 +18,7 @@ ul {
   overflow-y: auto;
   max-height: 80vh;
   width: 530px;
+  margin-bottom: 60px; /* Adicionando um pequeno espaço para o input */
 }
 
 li {
@@ -227,11 +228,12 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 600px;
+  margin-top: auto; /* Garantindo que o input fique no final do layout */
 }
 
 #chatScreen input[type="text"] {
@@ -343,4 +345,8 @@ ul::-webkit-scrollbar-thumb:hover {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.message-box{
+  margin-bottom: 0; /* Ajustando a margem para não ter espaço extra */
 }
