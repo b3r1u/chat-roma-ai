@@ -4,74 +4,64 @@ let profilePic = "";
 let userColor = "";
 const userColors = {};
 
+const enviarBtn = document.getElementById("enviarBtn");
+
 socket.on("connect", () => {
-  console.log("Conectado ao servidor");
+  console.log("Conectado ao servidor com ID:", socket.id);
+
+  enviarBtn.onclick = () => {
+    enviar()
+  }
+
+  function enviar() {
+    let msg = document.getElementById("messageInput").value;
+    const messageInput = document.getElementById("messageInput");
+  
+    messageInput.classList.remove("input-error");
+    messageInput.placeholder = "Digite sua mensagem";
+  
+    if (msg.trim()) {
+      socket.emit("message", {
+        text: msg.trim(),
+        username: username,
+        profilePic: profilePic,
+        userColor: userColor,
+        id: socket.id,
+      });
+      document.getElementById("messageInput").value = "";
+    } else {
+      messageInput.classList.add("input-error");
+      messageInput.placeholder = "Por favor, digite uma mensagem.";
+    }
+  }
+  
+
+  document
+    .getElementById("messageInput")
+    .addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        enviar();
+      }
+    });
 });
 
-function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-function showLoading() {
-  const ul = document.querySelector("ul");
-
-  // Verifique se o loading já existe para evitar duplicação
-  if (!document.getElementById("loading-spinner")) {
-    const li = document.createElement("li");
-    li.id = "loading-spinner";
-    li.style.display = "flex";
-    li.style.alignItems = "center";
-
-    // Definição do conteúdo do loading
-    li.innerHTML = `
-      <div style="display: flex; align-items: center; margin-left: 17.7rem;">
-        <div class="spinner" style="width: 30px; height: 30px; border: 4px solid #ccc; border-top-color: #676767; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <span style="margin-left: 10px; color: #FFFFFF;">Carregando imagem...</span>
-      </div>
-    `;
-
-    ul.appendChild(li);
-    ul.scrollTop = ul.scrollHeight; // Rolar para o fim do chat
-  }
-}
-
-// Oculta o loading
-function hideLoading() {
-  const loadingDiv = document.getElementById("loading-spinner");
-  if (loadingDiv) {
-    loadingDiv.remove();
-  }
-}
-
-// Recebe o evento do servidor para mostrar o loading
 socket.on("show-loading", () => {
   showLoading();
 });
 
-// Recebe o evento do servidor para ocultar o loading
 socket.on("hide-loading", () => {
   hideLoading();
 });
 
 socket.on("message", (data) => {
-  console.log("Recebendo mensagem com ID:", data.id); // Log do ID recebido
-  console.log("Meu socket.id:", socket.id);
+  console.log("Recebendo mensagem com ID:", data.id);
 
   const ul = document.querySelector("ul");
   const li = document.createElement("li");
   const img = document.createElement("img");
 
-  if (data.profilePic) {
-    img.src = data.profilePic;
-  } else {
-    img.src =
-      "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
-  }
+  img.src = data.profilePic || "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
   img.classList.add("profile-pic");
 
   if (data.id === socket.id) {
@@ -100,6 +90,15 @@ socket.on("message", (data) => {
   ul.scrollTop = ul.scrollHeight;
 });
 
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 function login() {
   const usernameInput = document.getElementById("username");
   const profilePicInput = document.getElementById("profilePic");
@@ -109,12 +108,8 @@ function login() {
 
   if (usernameInput.value.trim()) {
     username = usernameInput.value.trim();
-    if (!userColors[username]) {
-      userColor = getRandomColor();
-      userColors[username] = userColor;
-    } else {
-      userColor = userColors[username];
-    }
+    userColor = userColors[username] || getRandomColor();
+    userColors[username] = userColor;
 
     if (profilePicInput.files.length > 0) {
       const reader = new FileReader();
@@ -125,8 +120,7 @@ function login() {
       };
       reader.readAsDataURL(profilePicInput.files[0]);
     } else {
-      profilePic =
-        "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
+      profilePic = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("chatScreen").style.display = "block";
     }
@@ -136,34 +130,24 @@ function login() {
   }
 }
 
-function enviar() {
-  let msg = document.getElementById("messageInput").value;
-  const messageInput = document.getElementById("messageInput");
-
-  messageInput.classList.remove("input-error");
-  messageInput.placeholder = "Digite sua mensagem";
-
-  if (msg.trim()) {
-    console.log("Enviando mensagem com ID:", socket.id);
-    socket.emit("message", {
-      text: msg.trim(),
-      username: username,
-      profilePic: profilePic,
-      userColor: userColor,
-      id: socket.id,
-    });
-    document.getElementById("messageInput").value = "";
-  } else {
-    messageInput.classList.add("input-error");
-    messageInput.placeholder = "Por favor, digite uma mensagem.";
+function showLoading() {
+  const ul = document.querySelector("ul");
+  if (!document.getElementById("loading-spinner")) {
+    const li = document.createElement("li");
+    li.id = "loading-spinner";
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.innerHTML = `
+      <div style="display: flex; align-items: center; margin-left: 17.7rem;">
+        <div class="spinner" style="width: 30px; height: 30px; border: 4px solid #ccc; border-top-color: #676767; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <span style="margin-left: 10px; color: #FFFFFF;">Carregando imagem...</span>
+      </div>`;
+    ul.appendChild(li);
+    ul.scrollTop = ul.scrollHeight;
   }
 }
 
-document
-  .getElementById("messageInput")
-  .addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      enviar();
-    }
-  });
+function hideLoading() {
+  const loadingDiv = document.getElementById("loading-spinner");
+  if (loadingDiv) loadingDiv.remove();
+}
