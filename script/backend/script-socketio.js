@@ -4,11 +4,12 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const axios = require("axios");
 const path = require("path");
-require('dotenv').config({ path: './script/token.env' }); 
+require('dotenv').config();
+console.log('API Key:', process.env.OPENAI_API_KEY);
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: "process.env.OPENAI_API_KEY"
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const app = express();
@@ -18,7 +19,7 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://127.0.0.1:5500",
     methods: ["GET", "POST"],
   },
 });
@@ -226,7 +227,7 @@ io.on("connection", (socket) => {
     const userMessage = msg.text.replace("/text ", "").trim();
 
     try {
-      const textResponse = await axios.post("http://localhost:3000/text", { userMessage });
+      const textResponse = await axios.post("http://localhost:4000/text", { userMessage });
       const aiResponseText = textResponse.data.text;
 
       io.emit("message", {
@@ -249,7 +250,7 @@ io.on("connection", (socket) => {
       const description = msg.text.replace("/image ", "").trim();
 
       try {
-        const imageResponse = await axios.post("http://localhost:3000/openai/image", { description });
+        const imageResponse = await axios.post("http://localhost:4000/openai/image", { description });
         const imageUrl = imageResponse.data.url;
 
         io.emit("message", {

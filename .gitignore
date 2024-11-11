@@ -7,4 +7,3 @@ npm-debug.log*
 
 
 .env
-script/token.env

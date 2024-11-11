@@ -1,4 +1,4 @@
-const socket = io("http://localhost:4000");
+const socket = io("http://127.0.0.1:4000");
 let username = "";
 let profilePic = "";
 let userColor = "";
