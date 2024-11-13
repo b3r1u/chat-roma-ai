@@ -4,11 +4,12 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const axios = require("axios");
 const path = require("path");
-require('dotenv').config({ path: './script/token.env' }); 
+require('dotenv').config();
+console.log('API Key:', process.env.OPENAI_API_KEY);
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: "process.env.OPENAI_API_KEY"
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const app = express();
@@ -19,7 +20,6 @@ app.use(express.json());
 const io = new Server(server, {
   cors: {
     origin: "http://127.0.0.1:5500",
-    
     methods: ["GET", "POST"],
   },
 });
@@ -97,7 +97,7 @@ app.get("/cavalo-sound", (req, res) => {
 
 //som do cachorro
 app.get("/dog-sound", (req, res) => {
-  const audioPath = path.join(__dirname, "public", "audios", "dog.mp3");
+  const audioPath = path.join(__dirname, "public", "audios", "cachorro.mp3");
   res.sendFile(audioPath);
 });
 
@@ -217,13 +217,17 @@ app.post("/text", async (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
+  socket.on("message", (data) => {
+    const messageData = { ...data, id: socket.id };
+    io.emit("message", messageData);
+  });
 
   socket.on("message", async (msg) => {
   if (msg.text.startsWith("/text ")) {
     const userMessage = msg.text.replace("/text ", "").trim();
 
     try {
-      const textResponse = await axios.post("http://localhost:3000/text", { userMessage });
+      const textResponse = await axios.post("http://localhost:4000/text", { userMessage });
       const aiResponseText = textResponse.data.text;
 
       io.emit("message", {
@@ -246,7 +250,7 @@ io.on("connection", (socket) => {
       const description = msg.text.replace("/image ", "").trim();
 
       try {
-        const imageResponse = await axios.post("http://localhost:3000/openai/image", { description });
+        const imageResponse = await axios.post("http://localhost:4000/openai/image", { description });
         const imageUrl = imageResponse.data.url;
 
         io.emit("message", {
@@ -409,7 +413,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/cat-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "Cat Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -428,7 +432,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/scooby-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "scooby Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -447,7 +451,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/dog-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "Dog Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -466,7 +470,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/cavalo-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "cavalo Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -485,7 +489,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/spiderman-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "spiderman Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -504,7 +508,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/galinha-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "galinha Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -523,7 +527,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/sapo-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "sapo Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
@@ -542,7 +546,7 @@ io.on("connection", (socket) => {
         const catSoundUrl = "http://localhost:4000/ari-sound";
         
         io.emit("message", {
-          text: `<audio controls><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
+          text: `<audio autoplay><source src="${catSoundUrl}" type="audio/mpeg"></audio>`,
           username: "ooscby Sound Bot",
           profilePic: "https://img.icons8.com/?size=100&id=11795&format=png&color=676767",
           id: socket.id,
