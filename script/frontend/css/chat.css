@@ -5,7 +5,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
   justify-content: center;
   align-items: center;
 }
@@ -18,7 +18,7 @@ ul {
   overflow-y: auto;
   max-height: 80vh;
   width: 530px;
-  margin-bottom: 60px; /* Adicionando um pequeno espaço para o input */
+  margin-bottom: 10px; 
 }
 
 li {
@@ -233,7 +233,7 @@ button:hover {
   left: 50%;
   transform: translateX(-50%);
   width: 600px;
-  margin-top: auto; /* Garantindo que o input fique no final do layout */
+  margin-top: auto; 
 }
 
 #chatScreen input[type="text"] {
@@ -296,7 +296,7 @@ button:hover {
   #chatScreen {
     width: 90%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(0%);
   }
 
   ul::-webkit-scrollbar {
@@ -348,5 +348,11 @@ ul::-webkit-scrollbar-thumb:hover {
 }
 
 .message-box{
-  margin-bottom: 0; /* Ajustando a margem para não ter espaço extra */
+  margin-bottom: 0; 
 }
+
+html {
+  transform: scale(1);
+  transform-origin: 0 0;
+}
+

@@ -5,54 +5,41 @@ let userColor = "";
 const userColors = {};
 
 const enviarBtn = document.getElementById("enviarBtn");
+const messageInput = document.getElementById("messageInput");
+
+enviarBtn.addEventListener("click", enviar);
+
+messageInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    enviar();
+  }
+});
 
 socket.on("connect", () => {
   console.log("Conectado ao servidor com ID:", socket.id);
+});
 
-  enviarBtn.onclick = () => {
-    enviar()
-  }
+function enviar() {
+  let msg = messageInput.value;
 
-  function enviar() {
-    let msg = document.getElementById("messageInput").value;
-    const messageInput = document.getElementById("messageInput");
-  
-    messageInput.classList.remove("input-error");
-    messageInput.placeholder = "Digite sua mensagem";
-  
-    if (msg.trim()) {
-      socket.emit("message", {
-        text: msg.trim(),
-        username: username,
-        profilePic: profilePic,
-        userColor: userColor,
-        id: socket.id,
-      });
-      document.getElementById("messageInput").value = "";
-    } else {
-      messageInput.classList.add("input-error");
-      messageInput.placeholder = "Por favor, digite uma mensagem.";
-    }
-  }
-  
+  messageInput.classList.remove("input-error");
+  messageInput.placeholder = "Digite sua mensagem";
 
-  document
-    .getElementById("messageInput")
-    .addEventListener("keydown", function (event) {
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        enviar();
-      }
+  if (msg.trim()) {
+    socket.emit("message", {
+      text: msg.trim(),
+      username: username,
+      profilePic: profilePic,
+      userColor: userColor,
+      id: socket.id,
     });
-});
-
-socket.on("show-loading", () => {
-  showLoading();
-});
-
-socket.on("hide-loading", () => {
-  hideLoading();
-});
+    messageInput.value = "";
+  } else {
+    messageInput.classList.add("input-error");
+    messageInput.placeholder = "Por favor, digite uma mensagem.";
+  }
+}
 
 socket.on("message", (data) => {
   console.log("Recebendo mensagem com ID:", data.id);
@@ -61,7 +48,9 @@ socket.on("message", (data) => {
   const li = document.createElement("li");
   const img = document.createElement("img");
 
-  img.src = data.profilePic || "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
+  img.src =
+    data.profilePic ||
+    "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
   img.classList.add("profile-pic");
 
   if (data.id === socket.id) {
@@ -120,7 +109,8 @@ function login() {
       };
       reader.readAsDataURL(profilePicInput.files[0]);
     } else {
-      profilePic = "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
+      profilePic =
+        "https://img.icons8.com/?size=100&id=11795&format=png&color=676767";
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("chatScreen").style.display = "block";
     }
