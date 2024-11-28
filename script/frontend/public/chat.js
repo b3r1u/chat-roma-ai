@@ -18,6 +18,9 @@ messageInput.addEventListener("keydown", function (event) {
 
 socket.on("connect", () => {
   console.log("Conectado ao servidor com ID:", socket.id);
+
+  socket.off("message");
+  socket.on("message", handleMessage);
 });
 
 function enviar() {
@@ -41,7 +44,7 @@ function enviar() {
   }
 }
 
-socket.on("message", (data) => {
+function handleMessage(data) {
   console.log("Recebendo mensagem com ID:", data.id);
 
   const ul = document.querySelector("ul");
@@ -77,7 +80,7 @@ socket.on("message", (data) => {
   ul.appendChild(li);
 
   ul.scrollTop = ul.scrollHeight;
-});
+}
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
