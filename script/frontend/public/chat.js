@@ -23,6 +23,27 @@ socket.on("connect", () => {
   socket.on("message", handleMessage);
 });
 
+function handleCommand(message) {
+  if (message.startsWith("/som")) {
+    const soundName = message.split(" ")[2];
+    if (soundName) {
+      playSound(soundName);
+    } else {
+      console.warn("Comando de som inválido.");
+    }
+    return true;
+  }
+  return false;
+}
+
+function playSound(soundName) {
+  const audioPath = `audios/${soundName}.mp3`;
+  const audio = new Audio(audioPath);
+  audio.play().catch((error) => {
+    console.error("Erro ao reproduzir o som:", error);
+  });
+}
+
 function enviar() {
   let msg = messageInput.value;
 
@@ -30,13 +51,15 @@ function enviar() {
   messageInput.placeholder = "Digite sua mensagem";
 
   if (msg.trim()) {
-    socket.emit("message", {
-      text: msg.trim(),
-      username: username,
-      profilePic: profilePic,
-      userColor: userColor,
-      id: socket.id,
-    });
+    if (!handleCommand(msg.trim())) {
+      socket.emit("message", {
+        text: msg.trim(),
+        username: username,
+        profilePic: profilePic,
+        userColor: userColor,
+        id: socket.id,
+      });
+    }
     messageInput.value = "";
   } else {
     messageInput.classList.add("input-error");
