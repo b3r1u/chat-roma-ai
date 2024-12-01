@@ -36,20 +36,10 @@ app.use("/openai", openaiRoutes);
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
+
   socket.on("message", (data) => {
     const messageData = { ...data, id: socket.id };
     io.emit("message", messageData);
-  });
-
-  socket.on("message", async (msg) => {
-    {
-      io.emit("message", {
-        text: msg.text,
-        username: msg.username,
-        profilePic: msg.profilePic,
-        id: socket.id,
-      });
-    }
   });
 
   socket.on("disconnect", () => {
