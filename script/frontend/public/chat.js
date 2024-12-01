@@ -33,7 +33,46 @@ function handleCommand(message) {
     }
     return true;
   }
+
+  if (message.startsWith("/text")) {
+    const userMessage = message.replace("/text ", ""); // Remover o prefixo "/text"
+    sendMessageToOpenAI(userMessage);
+    return true;
+  }
+
   return false;
+}
+
+function sendMessageToOpenAI(userMessage) {
+  fetch("http://localhost:4000/openai/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: userMessage }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Falha na requisição ao servidor OpenAI");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.response) {
+        socket.emit("message", {
+          text: data.response,
+          username: "OpenIA",
+          profilePic:
+            "https://img.icons8.com/?size=100&id=59023&format=png&color=000000",
+          id: socket.id,
+        });
+      } else {
+        console.error("Resposta do OpenAI não contém dados válidos");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao enviar para OpenAI:", error);
+    });
 }
 
 function playSound(soundName) {

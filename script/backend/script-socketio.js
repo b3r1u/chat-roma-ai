@@ -9,7 +9,7 @@ console.log('API Key:', process.env.OPENAI_API_KEY);
 const OpenAI = require('openai');
 
 //importnado as rotas
-
+const openaiRoutes = require('./routes/openaiRoutes');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -31,6 +31,8 @@ const io = new Server(server, {
 
 app.use(express.static(__dirname + "/public"));
 app.use(cors());
+
+app.use("/openai", openaiRoutes);
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
@@ -67,19 +69,3 @@ server.listen(4000, () => {
   console.log("Servidor rodando na porta 4000");
 });
 
-router.get(`/${route}`, (req, res) => {
-  const audioPath = path.join(
-    __dirname,
-    "..",
-    "frontend",
-    "public",
-    "audios",
-    sounds[route]
-  );
-  console.log(`Servindo arquivo de áudio: ${audioPath}`);
-  res.sendFile(audioPath, (err) => {
-    if (err) {
-      console.error(`Erro ao enviar arquivo ${audioPath}:`, err);
-    }
-  });
-});
