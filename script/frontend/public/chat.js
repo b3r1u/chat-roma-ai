@@ -35,12 +35,55 @@ function handleCommand(message) {
   }
 
   if (message.startsWith("/text")) {
-    const userMessage = message.replace("/text ", ""); // Remover o prefixo "/text"
+    const userMessage = message.replace("/text ", ""); 
     sendMessageToOpenAI(userMessage);
     return true;
   }
 
+  if (message.startsWith("/image")) {
+    const imageDescription = message.replace("/image ", ""); 
+    sendImageRequest(imageDescription);
+    return true;
+  }
+
   return false;
+}
+
+function sendImageRequest(imageDescription) {
+  showLoading();
+
+  fetch("http://localhost:4000/openai/image", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ description: imageDescription }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Falha na requisição ao servidor para gerar imagem");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.url) {
+        socket.emit("message", {
+          text: `<img src="${data.url}" alt="Generated Image" style="max-width: 100%; height: auto;" />`,
+          username: "OpenAI",
+          profilePic:
+            "https://img.icons8.com/?size=100&id=59023&format=png&color=000000",
+          id: socket.id,
+        });
+      } else {
+        console.error("Resposta do servidor não contém URL de imagem.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao gerar imagem:", error);
+    })
+    .finally(() => {
+      hideLoading();
+    });
 }
 
 function sendMessageToOpenAI(userMessage) {
