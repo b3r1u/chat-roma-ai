@@ -11,7 +11,10 @@ const OpenAI = require('openai');
 //importando as rotas
 const openaiRoutes = require('./routes/openaiTextRoutes');
 const openaiImageRoutes = require('./routes/openaiImageRoutes');
+const dogImageRoutes = require('./routes/dogImageRoutes');
+const catImageRoutes = require('./routes/catImageRoutes');
 
+//instanciando o openai
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -22,6 +25,8 @@ const server = http.createServer(app);
 app.use(express.json());
 const audioRoutes = require("../backend/routes/audiosRoutes");
 app.use(audioRoutes);
+
+
 
 const io = new Server(server, {
   cors: {
@@ -34,7 +39,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
 app.use("/openai", openaiRoutes, openaiImageRoutes);
-
+app.use("/dog-image", dogImageRoutes);
+app.use("/cat-image", catImageRoutes);
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
