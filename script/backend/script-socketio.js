@@ -8,8 +8,9 @@ require('dotenv').config();
 console.log('API Key:', process.env.OPENAI_API_KEY);
 const OpenAI = require('openai');
 
-//importnado as rotas
-const openaiRoutes = require('./routes/openaiRoutes');
+//importando as rotas
+const openaiRoutes = require('./routes/openaiTextRoutes');
+const openaiImageRoutes = require('./routes/openaiImageRoutes');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -32,7 +33,8 @@ const io = new Server(server, {
 app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
-app.use("/openai", openaiRoutes);
+app.use("/openai", openaiRoutes, openaiImageRoutes);
+
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
