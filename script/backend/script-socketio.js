@@ -13,6 +13,8 @@ const openaiRoutes = require('./routes/openaiTextRoutes');
 const openaiImageRoutes = require('./routes/openaiImageRoutes');
 const dogImageRoutes = require('./routes/dogImageRoutes');
 const catImageRoutes = require('./routes/catImageRoutes');
+const artImageRoutes = require('./routes/artImageRoutes');
+const foxImageRoutes = require('./routes/foxImageRoutes');
 
 //instanciando o openai
 const openai = new OpenAI({
@@ -41,6 +43,9 @@ app.use(cors());
 app.use("/openai", openaiRoutes, openaiImageRoutes);
 app.use("/dog-image", dogImageRoutes);
 app.use("/cat-image", catImageRoutes);
+app.use("/artwork-image", artImageRoutes);
+app.use("/fox-image", foxImageRoutes);
+
 
 io.on("connection", (socket) => {
   console.log("Usuário conectado " + socket.id);
