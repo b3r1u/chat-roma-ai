@@ -1,6 +1,7 @@
 import { login } from "../public/scripts/login.js";
 import { handleMessage } from "../public/scripts/handleMessage.js";
 import { handleCommand } from "../public/scripts/handleCommand.js";
+import { showLoading, hideLoading } from "../public/scripts/loadingUtils.js";
 
 const socket = io("http://127.0.0.1:4000");
 let username = "";
@@ -50,26 +51,16 @@ function enviar() {
   }
 }
 
-document.getElementById("loginButton").addEventListener("click", () => login(userColors));
 
-function showLoading() {
-  const ul = document.querySelector("ul");
-  if (!document.getElementById("loading-spinner")) {
-    const li = document.createElement("li");
-    li.id = "loading-spinner";
-    li.style.display = "flex";
-    li.style.alignItems = "center";
-    li.innerHTML = `
-      <div style="display: flex; align-items: center; margin-left: 17.7rem;">
-        <div class="spinner" style="width: 30px; height: 30px; border: 4px solid #ccc; border-top-color: #676767; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <span style="margin-left: 10px; color: #FFFFFF;">Carregando imagem...</span>
-      </div>`;
-    ul.appendChild(li);
-    ul.scrollTop = ul.scrollHeight;
-  }
-}
+document.getElementById("loginButton").addEventListener("click", () => {
+  login(userColors)
+  console.log(userColors)
+});
 
-function hideLoading() {
-  const loadingDiv = document.getElementById("loading-spinner");
-  if (loadingDiv) loadingDiv.remove();
-}
+username = localStorage.getItem('username');  // Recupera o nome de usuário
+profilePic = localStorage.getItem('profilePic');  // Recupera a imagem de perfil
+userColor = userColors[username]?.color;  // Recupera a cor do usuário
+
+console.log("Nome do usuário:", username);
+console.log("Imagem de perfil:", profilePic);
+console.log("Cor do usuário:", userColor);

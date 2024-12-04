@@ -25,6 +25,7 @@ export function handleMessage(data, socket, userColors) {
     messageText.classList.add("message-text");
   
     const usernameColor = userColors[data.username] || getRandomColor();
+    console.log("nome ", data.username)
     userColors[data.username] = usernameColor;
     messageText.innerHTML = `<strong style="color: ${usernameColor}">${data.username}</strong><br>${data.text}`;
   
