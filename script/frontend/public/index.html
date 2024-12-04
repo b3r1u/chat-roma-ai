@@ -17,7 +17,7 @@
             /><br />
             <div id="loginError" class="error-message-nome"></div>
             <input type="file" id="profilePic" accept="image/*" /><br />
-            <button onclick="login()">Entrar no Chat</button>
+            <button id="loginButton">Entrar no Chat</button>
         </div>
 
         <div id="chatScreen" style="display: none">
@@ -34,7 +34,7 @@
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.0/socket.io.js"></script>
-        <script src="chat.js"></script>
+        <script type="module" src="chat.js"></script>
     </body>
 </html>
 
