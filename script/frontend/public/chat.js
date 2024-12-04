@@ -57,9 +57,9 @@ document.getElementById("loginButton").addEventListener("click", () => {
   console.log(userColors)
 });
 
-username = localStorage.getItem('username');  // Recupera o nome de usuário
-profilePic = localStorage.getItem('profilePic');  // Recupera a imagem de perfil
-userColor = userColors[username]?.color;  // Recupera a cor do usuário
+username = localStorage.getItem('username');
+profilePic = localStorage.getItem('profilePic');
+userColor = userColors[username]?.color;
 
 console.log("Nome do usuário:", username);
 console.log("Imagem de perfil:", profilePic);
